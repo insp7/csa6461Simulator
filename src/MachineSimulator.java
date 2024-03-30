@@ -62,6 +62,7 @@ public class MachineSimulator extends JFrame implements ActionListener {
         ixr3.setBounds(20, 210, 50, 25);
         this.add(ixr3);
 
+        ixr3 = new JLabel("ixr3");
 
     }
 

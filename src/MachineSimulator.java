@@ -16,6 +16,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.io.File;
+import java.util.LinkedHashMap;
 
 class MachineSimulator extends JFrame implements ActionListener {
 
@@ -210,6 +211,8 @@ class MachineSimulator extends JFrame implements ActionListener {
                     // Proceed with loading the file
                     // Handle the selected file (e.g., read its contents)
                     System.out.println("Selected file: " + selectedFile.getAbsolutePath());
+                    LinkedHashMap<String, String> octalLoadPairs = new ParseOctalLoadFile(selectedFile).getOctalLoadPairs();
+                    System.out.println(octalLoadPairs);
                     // Process the file and also make option where if wrong file type, reset everything
                 }
             }

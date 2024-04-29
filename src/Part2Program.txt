@@ -1,0 +1,17 @@
+
+
+
+
+            LOC 6
+LOOP_START: Data	10			;PUT 10 AT LOCATION 6
+            Data 	3			;PUT 3 AT LOCATION 7
+            Data	90
+            Data	0
+            Data	12
+            Data	9
+            Data	18
+            Data	12
+            STR     0,0,20  ;Store 20 in Register 0
+            JMA     0,0,6   ;Unconditional Jump
+
+

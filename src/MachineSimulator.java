@@ -1,11 +1,4 @@
-import javax.swing.Box;
-import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
+import javax.swing.*;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
@@ -15,8 +8,18 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.util.LinkedHashMap;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
+
+import java.util.Map;
+import java.util.Scanner;
 
 class MachineSimulator extends JFrame implements ActionListener {
 
@@ -26,7 +29,7 @@ class MachineSimulator extends JFrame implements ActionListener {
 
     JButton[] registerLoadButtons;
     JLabel[] registerLabels;
-    JLabel[] registerValueLabels;
+    static JLabel[] registerValueLabels;
     JLabel currentHexValue;
     JCheckBox[] checkboxes;
     int[] checkboxValues;
@@ -34,6 +37,10 @@ class MachineSimulator extends JFrame implements ActionListener {
     JPanel buttonPanel;
     JPanel checkboxPanel;
     JButton loadBtn, loadPlusBtn, storeBtn, storePlusBtn, runBtn, stepBtn, haltBtn, IPLBtn;
+    JLabel status;
+    int currentStepLine = 0;
+
+    File selectedFile = null;
 
     MachineSimulator() {
         initFrame();
@@ -54,7 +61,7 @@ class MachineSimulator extends JFrame implements ActionListener {
 
     private void addListeners() {
         class CheckboxListener implements ItemListener {
-            int index;
+            final int index;
             int[] checkboxValues;
 
             CheckboxListener(int index, int[] checkboxValues) {
@@ -123,7 +130,7 @@ class MachineSimulator extends JFrame implements ActionListener {
         }
         checkboxPanel.add(currentHexValue);
         contentPanel.add(checkboxPanel);
-
+        contentPanel.add(status);
         setVisible(true);
     }
 
@@ -134,6 +141,9 @@ class MachineSimulator extends JFrame implements ActionListener {
         buttonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         checkboxPanel = new JPanel();
         checkboxPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 0));
+
+        // display input file status
+        status = new JLabel("Status: Please select a load file");
 
         // registers
         registerLabels = new JLabel[]{new JLabel("GRP0"), new JLabel("GRP1"), new JLabel("GRP2"),
@@ -146,9 +156,13 @@ class MachineSimulator extends JFrame implements ActionListener {
         for (int i = 0; i < REGISTER_COUNT; i++) {
             // Binary 16 Bit Labels
             registerValueLabels[i] = new JLabel("0000000000000000");
-            registerValueLabels[i].setFont(MONOSPACED);
+            registerValueLabels[i].setFont(new Font("Roboto Mono", Font.PLAIN, 16));
             registerValueLabels[i].setForeground(Color.BLUE);
-
+            registerValueLabels[i].setFont(registerValueLabels[i].getFont().deriveFont(16.0f));
+            registerValueLabels[i].setFont(registerValueLabels[i].getFont().deriveFont(Font.BOLD));
+            registerLabels[i].setFont(registerLabels[i].getFont().deriveFont(16.0f));
+            registerLabels[i].setFont(new Font("Segoe UI", Font.PLAIN, 16));
+            registerLabels[i].setFont(registerLabels[i].getFont().deriveFont(Font.BOLD));
             // Load Buttons
             registerLoadButtons[i] = new JButton("Load");
         }
@@ -158,7 +172,7 @@ class MachineSimulator extends JFrame implements ActionListener {
         checkboxValues = new int[CHECKBOX_COUNT];
 
         // hexadecimal representation
-        currentHexValue = new JLabel("Hex Value: ");
+        currentHexValue = new JLabel("Hex Value: 0x0000");
 
         // instruction buttons
         loadBtn = new JButton("Load");
@@ -169,6 +183,16 @@ class MachineSimulator extends JFrame implements ActionListener {
         stepBtn = new JButton("Step");
         haltBtn = new JButton("Halt");
         IPLBtn = new JButton("IPL");
+
+        // set font to segoe ui
+        loadBtn.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+        loadPlusBtn.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+        storeBtn.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+        storePlusBtn.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+        runBtn.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+        stepBtn.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+        haltBtn.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+        IPLBtn.setFont(new Font("Segoe UI", Font.PLAIN, 16));
     }
 
     private void initFrame() {
@@ -177,6 +201,28 @@ class MachineSimulator extends JFrame implements ActionListener {
         this.setResizable(false);
         this.setBounds(160, 160, 800, 700);
         this.setVisible(true);
+    }
+
+    public static void duplicateFile(String originalFilePath, String duplicateFileName) throws IOException {
+        // Open the original file for reading
+        FileInputStream originalFileInputStream = new FileInputStream(originalFilePath);
+        InputStreamReader originalInputStreamReader = new InputStreamReader(originalFileInputStream);
+        BufferedReader originalBufferedReader = new BufferedReader(originalInputStreamReader);
+
+        // Create a new file for writing the duplicate content
+        FileWriter duplicateFileWriter = new FileWriter(duplicateFileName);
+        BufferedWriter duplicateBufferedWriter = new BufferedWriter(duplicateFileWriter);
+
+        // Read from the original file and write to the duplicate file
+        String line;
+        while ((line = originalBufferedReader.readLine()) != null) {
+            duplicateBufferedWriter.write(line);
+            duplicateBufferedWriter.newLine();
+        }
+
+        // Close the streams
+        originalBufferedReader.close();
+        duplicateBufferedWriter.close();
     }
 
     @Override
@@ -192,8 +238,149 @@ class MachineSimulator extends JFrame implements ActionListener {
             System.out.println("Store+ button clicked");
         } else if (source == runBtn) {
             System.out.println("Run button clicked");
+            if (selectedFile != null) {
+                System.out.println("Selected file: " + selectedFile.getAbsolutePath());
+                status.setText("Selected file: " + selectedFile.getAbsolutePath());
+                String filePath = selectedFile.getAbsolutePath();
+                SwingWorker<Void, Void> swingWorker = new SwingWorker<Void, Void>() {
+                    @Override
+                    protected Void doInBackground() throws Exception {
+                        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+                            String line;
+                            while((line = reader.readLine()) != null) {
+                                // Split the line into mar and mbr
+                                String[] parts = line.split("\\s+");
+                                if (parts.length >= 2) {
+                                    Registers.setRegisterValue("mar", parts[0]);
+                                    Registers.setRegisterValue("mbr", parts[1]);
+
+                                    // Process mar and mbr here
+                                    //Unfortunately issue of DATA 1024 being recognized as an LDR instruction due to Binary;
+                                    String instruction_and_binary = CPU.getBaseInstruction(line);
+                                    reader.mark(4096);
+                                    String nextLine = reader.readLine();
+                                    if (nextLine != null) {
+                                        String nextInstruction = CPU.getBaseInstruction(nextLine);
+                                        if (nextInstruction.contains("DATA")) {
+                                            instruction_and_binary = instruction_and_binary.replaceAll(".*\\|", "DATA|");
+                                        }
+                                    }
+                                    CPUExecutions.perform_action(instruction_and_binary);
+                                    reader.reset();
+                                    // Wait for Enter key press to proceed to the next line
+                                    System.out.println("MAR: " + Registers.getRegisterValue("mar") + ", MBR: " + Registers.getRegisterValue("mbr"));
+                                    System.out.println("Instruction and Binary Parameters: " + instruction_and_binary);
+                                    System.out.println("Press Exnter to continue...");
+                                    System.out.println("R0:  " + Registers.getRegisterValue("gpr0"));
+                                    System.out.println("R1:  " + Registers.getRegisterValue("gpr1"));
+                                    System.out.println("R2:  " + Registers.getRegisterValue("gpr2"));
+                                    System.out.println("R3:  " + Registers.getRegisterValue("gpr3"));
+                                    System.out.println("X1:  " + Registers.getRegisterValue("ixr1"));
+                                    System.out.println("X2:  " + Registers.getRegisterValue("ixr2"));
+                                    System.out.println("X3:  " + Registers.getRegisterValue("ixr3"));
+                                    System.out.println("_____________________________________________");
+//                    scanner.nextLine(); // Wait for Enter key press
+
+                                    registerValueLabels[0].setText(Registers.getRegisterValue("gpr0"));
+                                    registerValueLabels[1].setText(Registers.getRegisterValue("gpr1"));
+                                    registerValueLabels[2].setText(Registers.getRegisterValue("gpr2"));
+                                    registerValueLabels[3].setText(Registers.getRegisterValue("gpr3"));
+                                    registerValueLabels[4].setText(Registers.getRegisterValue("ixr1"));
+                                    registerValueLabels[5].setText(Registers.getRegisterValue("ixr2"));
+                                    registerValueLabels[6].setText(Registers.getRegisterValue("ixr3"));
+                                    registerValueLabels[7].setText(Registers.getRegisterValue("pc"));
+                                    registerValueLabels[8].setText(BaseConversion.octalToBinary(Registers.getRegisterValue("mar")));
+                                    registerValueLabels[9].setText(BaseConversion.octalToBinary(Registers.getRegisterValue("mbr")));
+                                    registerValueLabels[10].setText(Registers.getRegisterValue("mfr"));
+                                    registerValueLabels[11].setText(Registers.getRegisterValue("ir"));
+                                    registerValueLabels[12].setText(Registers.getRegisterValue("cc"));
+                                    Thread.sleep(300);
+
+                                }
+                            }
+                        } catch (IOException ioe) {
+                            ioe.printStackTrace();
+                        }
+                        return null;
+                    }
+                };
+                swingWorker.execute();
+            } else {
+                System.out.println("ERROR: No load file selected!");
+                status.setText("ERROR: Cannot run! No load file selected!");
+            }
         } else if (source == stepBtn) {
             System.out.println("Step button clicked");
+            if (selectedFile != null) {
+                try (BufferedReader reader = new BufferedReader(new FileReader(selectedFile.getAbsolutePath()))) {
+                    String line = null;
+                    currentStepLine++;
+                    int currentLineIndex = 1;
+                    while(currentLineIndex <= currentStepLine) {
+                        line = reader.readLine();
+                        currentLineIndex++;
+                    }
+
+                    if(line != null) {
+                        // Split the line into mar and mbr
+                        String[] parts = line.split("\\s+");
+                        if (parts.length >= 2) {
+                            Registers.setRegisterValue("mar", parts[0]);
+                            Registers.setRegisterValue("mbr", parts[1]);
+
+                            // Process mar and mbr here
+                            //Unfortunately issue of DATA 1024 being recognized as an LDR instruction due to Binary;
+                            String instruction_and_binary = CPU.getBaseInstruction(line);
+                            reader.mark(4096);
+                            String nextLine = reader.readLine();
+                            if (nextLine != null) {
+                                String nextInstruction = CPU.getBaseInstruction(nextLine);
+                                if (nextInstruction.contains("DATA")) {
+                                    instruction_and_binary = instruction_and_binary.replaceAll(".*\\|", "DATA|");
+                                }
+                            }
+                            CPUExecutions.perform_action(instruction_and_binary);
+                            reader.reset();
+                            // Wait for Enter key press to proceed to the next line
+                            System.out.println("MAR: " + Registers.getRegisterValue("mar") + ", MBR: " + Registers.getRegisterValue("mbr"));
+                            System.out.println("Instruction and Binary Parameters: " + instruction_and_binary);
+                            System.out.println("Press Exnter to continue...");
+                            System.out.println("R0:  " + Registers.getRegisterValue("gpr0"));
+                            System.out.println("R1:  " + Registers.getRegisterValue("gpr1"));
+                            System.out.println("R2:  " + Registers.getRegisterValue("gpr2"));
+                            System.out.println("R3:  " + Registers.getRegisterValue("gpr3"));
+                            System.out.println("X1:  " + Registers.getRegisterValue("ixr1"));
+                            System.out.println("X2:  " + Registers.getRegisterValue("ixr2"));
+                            System.out.println("X3:  " + Registers.getRegisterValue("ixr3"));
+                            System.out.println("_____________________________________________");
+
+                            registerValueLabels[0].setText(Registers.getRegisterValue("gpr0"));
+                            registerValueLabels[1].setText(Registers.getRegisterValue("gpr1"));
+                            registerValueLabels[2].setText(Registers.getRegisterValue("gpr2"));
+                            registerValueLabels[3].setText(Registers.getRegisterValue("gpr3"));
+                            registerValueLabels[4].setText(Registers.getRegisterValue("ixr1"));
+                            registerValueLabels[5].setText(Registers.getRegisterValue("ixr2"));
+                            registerValueLabels[6].setText(Registers.getRegisterValue("ixr3"));
+                            registerValueLabels[7].setText(Registers.getRegisterValue("pc"));
+                            registerValueLabels[8].setText(BaseConversion.octalToBinary(Registers.getRegisterValue("mar")));
+                            registerValueLabels[9].setText(BaseConversion.octalToBinary(Registers.getRegisterValue("mbr")));
+                            registerValueLabels[10].setText(Registers.getRegisterValue("mfr"));
+                            registerValueLabels[11].setText(Registers.getRegisterValue("ir"));
+                            registerValueLabels[12].setText(Registers.getRegisterValue("cc"));
+                            Thread.sleep(300);
+
+                        }
+                    } else {
+                        status.setText("ALL STEPS EXHAUSTED: No more instructions to execute!");
+                    }
+                } catch (IOException | InterruptedException ioe) {
+                    ioe.printStackTrace();
+                }
+            } else {
+                System.out.println("ERROR: No load file selected!");
+                status.setText("ERROR: Cannot run! No load file selected!");
+            }
+
         } else if (source == haltBtn) {
             System.out.println("Halt button clicked");
         } else if (source == IPLBtn) {
@@ -202,7 +389,7 @@ class MachineSimulator extends JFrame implements ActionListener {
             fileChooser.setCurrentDirectory(new File(System.getProperty("user.dir"))); // Set default directory
             int result = fileChooser.showOpenDialog(this);
             if (result == JFileChooser.APPROVE_OPTION) {
-                File selectedFile = fileChooser.getSelectedFile();
+                selectedFile = fileChooser.getSelectedFile();
                 // Check if the file extension is *.txt
                 if (!selectedFile.getName().toLowerCase().endsWith(".txt")) {
                     // Show error message or handle accordingly
@@ -211,9 +398,6 @@ class MachineSimulator extends JFrame implements ActionListener {
                     // Proceed with loading the file
                     // Handle the selected file (e.g., read its contents)
                     System.out.println("Selected file: " + selectedFile.getAbsolutePath());
-                    LinkedHashMap<String, String> octalLoadPairs = new ParseOctalLoadFile(selectedFile).getOctalLoadPairs();
-                    System.out.println(octalLoadPairs);
-                    // Process the file and also make option where if wrong file type, reset everything
                 }
             }
         } else {
@@ -231,7 +415,86 @@ class MachineSimulator extends JFrame implements ActionListener {
         }
     }
 
-    public static void main(String[] args) {
-        new MachineSimulator();
+    public static void main(String[] args) throws InterruptedException {
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                MachineSimulator machineSimulator = new MachineSimulator();
+                Memory memory = new Memory();
+                Registers registers = new Registers();
+            }
+        });
+
+
+        // Input of instruction will come from mar and mbr reading input assembly file
+//        Scanner scanner = new Scanner(System.in);
+//
+//        // Prompt the user to enter the file path
+//        String filePath = "C:\\Users\\konka\\OneDrive\\Desktop\\CSA6461Sim\\data\\assemblyload.txt";
+//        //String filePath = scanner.nextLine();
+
+        /*
+        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                // Split the line into mar and mbr
+                String[] parts = line.split("\\s+");
+                if (parts.length >= 2) {
+                    Registers.setRegisterValue("mar", parts[0]);
+                    Registers.setRegisterValue("mbr", parts[1]);
+
+                    // Process mar and mbr here
+                    //Unfortunately issue of DATA 1024 being recognized as an LDR instruction due to Binary;
+                    String instruction_and_binary = CPU.getBaseInstruction(line);
+                    reader.mark(4096);
+                    String nextLine = reader.readLine();
+                    if (nextLine != null) {
+                        String nextInstruction = CPU.getBaseInstruction(nextLine);
+                        if (nextInstruction.contains("DATA")) {
+                            instruction_and_binary = instruction_and_binary.replaceAll(".*\\|", "DATA|");
+                        }
+                    }
+                    CPUExecutions.perform_action(instruction_and_binary);
+                    reader.reset();
+                    // Wait for Enter key press to proceed to the next line
+                    System.out.println("MAR: " + Registers.getRegisterValue("mar") + ", MBR: " + Registers.getRegisterValue("mbr"));
+                    System.out.println("Instruction and Binary Parameters: " + instruction_and_binary);
+                    System.out.println("Press Exnter to continue...");
+                    System.out.println("R0:  " + Registers.getRegisterValue("gpr0"));
+                    System.out.println("R1:  " + Registers.getRegisterValue("gpr1"));
+                    System.out.println("R2:  " + Registers.getRegisterValue("gpr2"));
+                    System.out.println("R3:  " + Registers.getRegisterValue("gpr3"));
+                    System.out.println("X1:  " + Registers.getRegisterValue("ixr1"));
+                    System.out.println("X2:  " + Registers.getRegisterValue("ixr2"));
+                    System.out.println("X3:  " + Registers.getRegisterValue("ixr3"));
+                    System.out.println("_____________________________________________");
+//                    scanner.nextLine(); // Wait for Enter key press
+
+                    registerValueLabels[0].setText(Registers.getRegisterValue("gpr0"));
+                    registerValueLabels[1].setText(Registers.getRegisterValue("gpr1"));
+                    registerValueLabels[2].setText(Registers.getRegisterValue("gpr2"));
+                    registerValueLabels[3].setText(Registers.getRegisterValue("gpr3"));
+                    registerValueLabels[4].setText(Registers.getRegisterValue("ixr1"));
+                    registerValueLabels[5].setText(Registers.getRegisterValue("ixr2"));
+                    registerValueLabels[6].setText(Registers.getRegisterValue("ixr3"));
+                    registerValueLabels[7].setText(Registers.getRegisterValue("pc"));
+                    registerValueLabels[8].setText(BaseConversion.octalToBinary(Registers.getRegisterValue("mar")));
+                    registerValueLabels[9].setText(BaseConversion.octalToBinary(Registers.getRegisterValue("mbr")));
+                    registerValueLabels[10].setText(Registers.getRegisterValue("mfr"));
+                    registerValueLabels[11].setText(Registers.getRegisterValue("ir"));
+                    registerValueLabels[12].setText(Registers.getRegisterValue("cc"));
+                    Thread.sleep(300);
+
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            // Close the scanner
+            scanner.close();
+        }
+        Memory.showMemoryContents();
+
+         */
     }
 }

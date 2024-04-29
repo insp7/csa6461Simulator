@@ -323,7 +323,7 @@ public class Assembler {
 //        Scanner scanner = new Scanner(System.in);
 
 //        System.out.println("Input the path of the assembly source file: ");
-        String assembly = "C:\\Users\\konka\\OneDrive\\Desktop\\CSA6461Sim\\data\\newTest.txt";
+        String assembly = "C:\\Users\\konka\\OneDrive\\Desktop\\CSA6461Sim\\data\\assembly.txt";
         File assemblyFile = new File(assembly);
         String dir = assemblyFile.getParent();
         if (dir != null) {

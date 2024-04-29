@@ -398,6 +398,7 @@ class MachineSimulator extends JFrame implements ActionListener {
                     // Proceed with loading the file
                     // Handle the selected file (e.g., read its contents)
                     System.out.println("Selected file: " + selectedFile.getAbsolutePath());
+                    status.setText("Selected file: " + selectedFile.getAbsolutePath());
                 }
             }
         } else {

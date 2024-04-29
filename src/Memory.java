@@ -42,4 +42,14 @@ public class Memory {
             count++; //remove later
         }
     }
+
+    public static void reset() {
+        memory = null; // reset
+        memory = new LinkedHashMap<>();
+        // initialize the memory again
+        for (int i = 0; i < SIZE; i++) {
+            String location = BaseConversion.decimalToOctal(i, 6);
+            memory.put(location, "000000");
+        }
+    }
 }

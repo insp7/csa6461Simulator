@@ -92,6 +92,7 @@ public class Registers {
                 break;
             case "cc":
                 cc = value;
+                break;
             default:
                 System.out.println("Invalid register name");
         }
@@ -132,5 +133,21 @@ public class Registers {
                 System.out.println("Invalid register name");
                 return "-1"; // Return a default value indicating an error
         }
+    }
+
+    public static void reset() {
+        Registers.setRegisterValue("gpr0", "0000000000000000");
+        Registers.setRegisterValue("gpr1", "0000000000000000");
+        Registers.setRegisterValue("gpr2", "0000000000000000");
+        Registers.setRegisterValue("gpr3", "0000000000000000");
+        Registers.setRegisterValue("ixr1", "0000000000000000");
+        Registers.setRegisterValue("ixr2", "0000000000000000");
+        Registers.setRegisterValue("ixr3", "0000000000000000");
+        Registers.setRegisterValue("pc", "0000000000000000");
+        Registers.setRegisterValue("mar", "0000000000000000");
+        Registers.setRegisterValue("mbr", "0000000000000000");
+        Registers.setRegisterValue("mfr", "0000000000000000");
+        Registers.setRegisterValue("ir", "0000000000000000");
+        Registers.setRegisterValue("cc", "0000000000000000");
     }
 }

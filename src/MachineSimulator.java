@@ -1,4 +1,3 @@
-import javax.print.attribute.standard.JobName;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -13,7 +12,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.FileInputStream;
 import java.io.InputStreamReader;
-
 
 class MachineSimulator extends JFrame implements ActionListener {
 
@@ -459,7 +457,6 @@ class MachineSimulator extends JFrame implements ActionListener {
         // Close the FileWriter
         writer.close();
     }
-
 
     public static void mergeFiles(String sourceFileName, String destinationFileName) throws IOException {
         // Create a FileReader and BufferedReader for the source file

@@ -1,0 +1,207 @@
+	  Loc 	  6 	    ;Being at locatino 6
+	  Data    6         ; Put ASCII code for 'C' at location 14
+          Data    111       ; Put ASCII code for 'o' at location 15
+          Data    109       ; Put ASCII code for 'm' at location 16
+          Data    112       ; Put ASCII code for 'p' at location 17
+          Data    117       ; Put ASCII code for 'u' at location 18
+          Data    116       ; Put ASCII code for 't' at location 19
+          Data    114       ; Put ASCII code for 'e' at location 20
+          Data    32        ; Put ASCII code for 'r' at location 21
+          Data    115       ; Put ASCII code for 's' at location 22
+          Data    99        ; Put ASCII code for 'c' at location 23
+          Data    105       ; Put ASCII code for 'i' at location 24
+          Data    101       ; Put ASCII code for 'e' at location 25
+          Data    110       ; Put ASCII code for 'n' at location 26
+          Data    99       ; Put ASCII code for 'c' at location 27
+          Data    101       ; Put ASCII code for 'e' at location 28
+          Data    32        ; Put ASCII code for ' ' at location 29
+          Data    105       ; Put ASCII code for 'i' at location 30
+          Data    115       ; Put ASCII code for 's' at location 31
+          Data    32        ; Put ASCII code for ' ' at location 32
+          Data    104       ; Put ASCII code for 'h' at location 33
+          Data    97        ; Put ASCII code for 'a' at location 34
+          Data    114       ; Put ASCII code for 'r' at location 35
+          Data    100       ; Put ASCII code for 'd' at location 36
+          Data    32        ; Put ASCII code for ' ' at location 37
+          Data    98        ; Put ASCII code for 'b' at location 38
+          Data    117       ; Put ASCII code for 'u' at location 39
+          Data    116       ; Put ASCII code for 't' at location 40
+          Data    32        ; Put ASCII code for ' ' at location 41
+          Data    102       ; Put ASCII code for 'f' at location 42
+          Data    117       ; Put ASCII code for 'u' at location 43
+          Data    110       ; Put ASCII code for 'n' at location 44
+          Data	  46 	    ; Put ASCII code for '.' at location 45
+          Data    119       ; Put ASCII code for 'w' at location 46
+          Data    101       ; Put ASCII code for 'e' at location 47
+          Data    32        ; Put ASCII code for ' ' at location 48
+          Data    116       ; Put ASCII code for 't' at location 49
+          Data    114       ; Put ASCII code for 'r' at location 50
+          Data    105       ; Put ASCII code for 'y' at location 51
+          Data    100       ; Put ASCII code for 'd' at location 52
+          Data    32        ; Put ASCII code for ' ' at location 53
+          Data    111       ; Put ASCII code for 'o' at location 54
+          Data    117       ; Put ASCII code for 'u' at location 55
+          Data    114       ; Put ASCII code for 'r' at location 56
+          Data    32        ; Put ASCII code for ' ' at location 57
+          Data    104       ; Put ASCII code for 'h' at location 58
+          Data    97        ; Put ASCII code for 'a' at location 59
+          Data    114       ; Put ASCII code for 'r' at location 60
+          Data    100       ; Put ASCII code for 'd' at location 61
+          Data    101       ; Put ASCII code for 'e' at location 62
+          Data    115       ; Put ASCII code for 's' at location 63
+          Data    116       ; Put ASCII code for 't' at location 64
+          Data    32        ; Put ASCII code for ' ' at location 65
+          Data    105       ; Put ASCII code for 'i' at location 66
+          Data    116       ; Put ASCII code for 't' at location 67
+          Data    32        ; Put ASCII code for ' ' at location 68
+          Data    119       ; Put ASCII code for 'w' at location 69
+          Data    97        ; Put ASCII code for 'a' at location 70
+          Data    115       ; Put ASCII code for 's' at location 71
+          Data    32        ; Put ASCII code for ' ' at location 72
+          Data    102       ; Put ASCII code for 'b' at location 73
+          Data    117       ; Put ASCII code for 'u' at location 74
+          Data    116       ; Put ASCII code for 't' at location 75
+          Data    32        ; Put ASCII code for ' ' at location 76
+          Data    105       ; Put ASCII code for 'i' at location 77
+          Data    32        ; Put ASCII code for ' ' at location 78
+          Data    104       ; Put ASCII code for 'h' at location 79
+          Data    97        ; Put ASCII code for 'a' at location 80
+          Data    118       ; Put ASCII code for 'v' at location 81
+          Data    101       ; Put ASCII code for 'e' at location 82
+          Data    32        ; Put ASCII code for ' ' at location 83
+          Data    108       ; Put ASCII code for 'l' at location 84
+          Data    111       ; Put ASCII code for 'o' at location 85
+          Data    115       ; Put ASCII code for 's' at location 86
+          Data    116       ; Put ASCII code for 't' at location 87
+          Data    32        ; Put ASCII code for ' ' at location 88
+          Data    104       ; Put ASCII code for 'h' at location 89
+          Data    97        ; Put ASCII code for 'a' at location 90
+          Data    105       ; Put ASCII code for 'i' at location 91
+          Data    114       ; Put ASCII code for 'r' at location 92
+          Data    32        ; Put ASCII code for ' ' at location 95
+          Data    116       ; Put ASCII code for 't' at location 96
+          Data    111       ; Put ASCII code for 'o' at location 97
+          Data    32        ; Put ASCII code for ' ' at location 98
+          Data    115       ; Put ASCII code for 's' at location 99
+          Data    116       ; Put ASCII code for 't' at location 100
+          Data    114       ; Put ASCII code for 'r' at location 101
+          Data    101       ; Put ASCII code for 'e' at location 102
+          Data    115       ; Put ASCII code for 's' at location 103
+          Data    115       ; Put ASCII code for 's' at location 104
+          Data    105       ; Put ASCII code for 'i' at location 105
+          Data    32        ; Put ASCII code for ' ' at location 106
+          Data    104       ; Put ASCII code for 'h' at location 107
+          Data    97        ; Put ASCII code for 'a' at location 108
+          Data    118       ; Put ASCII code for 'v' at location 109
+          Data    101       ; Put ASCII code for 'e' at location 110
+          Data    32        ; Put ASCII code for ' ' at location 111
+          Data    108       ; Put ASCII code for 'l' at location 112
+          Data    101       ; Put ASCII code for 'e' at location 113
+          Data    97        ; Put ASCII code for 'a' at location 114
+          Data    114       ; Put ASCII code for 'r' at location 115
+          Data    110       ; Put ASCII code for 'n' at location 116
+          Data    101       ; Put ASCII code for 'e' at location 117
+          Data    100       ; Put ASCII code for 'd' at location 118
+          Data    32        ; Put ASCII code for ' ' at location 119
+          Data    97        ; Put ASCII code for 'a' at location 120
+          Data    32        ; Put ASCII code for ' ' at location 121
+          Data    108       ; Put ASCII code for 'l' at location 122
+          Data    111       ; Put ASCII code for 'o' at location 123
+          Data    116       ; Put ASCII code for 't' at location 124
+          Data    32        ; Put ASCII code for ' ' at location 125
+          Data    97        ; Put ASCII code for 'a' at location 126
+          Data    98        ; Put ASCII code for 'b' at location 127
+          Data    111       ; Put ASCII code for 'o' at location 128
+          Data    117       ; Put ASCII code for 'u' at location 129
+          Data    116       ; Put ASCII code for 't' at location 130
+          Data    32        ; Put ASCII code for ' ' at location 131
+          Data    97        ; Put ASCII code for 'a' at location 132
+          Data    115       ; Put ASCII code for 's' at location 133
+          Data    99       ; Put ASCII code for 'c' at location 134
+          Data    105       ; Put ASCII code for 'i' at location 135
+          Data    105       ; Put ASCII code for 'i' at location 136
+          Data    32        ; Put ASCII code for ' ' at location 137
+          Data    119       ; Put ASCII code for 'w' at location 138
+          Data    114       ; Put ASCII code for 'r' at location 139
+          Data    105       ; Put ASCII code for 'i' at location 140
+          Data    116       ; Put ASCII code for 't' at location 141
+          Data    116       ; Put ASCII code for 't' at location 142
+          Data    101       ; Put ASCII code for 'e' at location 143
+          Data    110       ; Put ASCII code for 'n' at location 144
+          Data    32        ; Put ASCII code for ' ' at location 145
+          Data    116       ; Put ASCII code for 't' at location 146
+          Data    104       ; Put ASCII code for 'h' at location 147
+          Data    105       ; Put ASCII code for 'i' at location 148
+          Data    115       ; Put ASCII code for 's' at location 149
+          Data    110       ; Put ASCII code for 'n' at location 150
+          Data    111       ; Put ASCII code for 'o' at location 151
+          Data    119       ; Put ASCII code for 'w' at location 152
+          Data    32        ; Put ASCII code for ' ' at location 153
+          Data    73        ; Put ASCII code for 'I' at location 154
+          Data    32        ; Put ASCII code for ' ' at location 155
+          Data    97        ; Put ASCII code for 'a' at location 156
+          Data    109       ; Put ASCII code for 'm' at location 157
+          Data    32        ; Put ASCII code for ' ' at location 158
+          Data    115       ; Put ASCII code for 's' at location 159
+          Data    111       ; Put ASCII code for 'o' at location 160
+          Data    32        ; Put ASCII code for ' ' at location 161
+          Data    103       ; Put ASCII code for 'g' at location 162
+          Data    111       ; Put ASCII code for 'o' at location 163
+          Data    111       ; Put ASCII code for 'o' at location 164
+          Data    100       ; Put ASCII code for 'd' at location 165
+          Data    32        ; Put ASCII code for ' ' at location 166
+          Data    97        ; Put ASCII code for 'a' at location 167
+          Data    116       ; Put ASCII code for 't' at location 168
+          Data    32        ; Put ASCII code for ' ' at location 169
+          Data    116       ; Put ASCII code for 't' at location 170
+          Data    104       ; Put ASCII code for 'h' at location 171
+          Data    105       ; Put ASCII code for 'i' at location 172
+          Data    115       ; Put ASCII code for 's' at location 173
+          Data    110       ; Put ASCII code for 'n' at location 200
+          Data    101       ; Put ASCII code for 'e' at location 201
+          Data    118       ; Put ASCII code for 'v' at location 202
+          Data    101       ; Put ASCII code for 'e' at location 203
+          Data    114       ; Put ASCII code for 'r' at location 204
+          Data    32        ; Put ASCII code for ' ' at location 205
+          Data    103       ; Put ASCII code for 'g' at location 206
+          Data    111       ; Put ASCII code for 'o' at location 207
+          Data    110       ; Put ASCII code for 'n' at location 208
+          Data    110       ; Put ASCII code for 'n' at location 209
+          Data    97        ; Put ASCII code for 'a' at location 210
+          Data    32        ; Put ASCII code for ' ' at location 211
+          Data    103       ; Put ASCII code for 'g' at location 212
+          Data    105       ; Put ASCII code for 'i' at location 213
+          Data    118       ; Put ASCII code for 'v' at location 214
+          Data    101       ; Put ASCII code for 'e' at location 215
+          Data    32        ; Put ASCII code for ' ' at location 216
+          Data    121       ; Put ASCII code for 'y' at location 217
+          Data    111       ; Put ASCII code for 'o' at location 218
+          Data    117       ; Put ASCII code for 'u' at location 219
+          Data    32        ; Put ASCII code for ' ' at location 220
+          Data    117       ; Put ASCII code for 'u' at location 221
+          Data    112       ; Put ASCII code for 'p' at location 222
+          Data    110       ; Put ASCII code for 'n' at location 250
+          Data    101       ; Put ASCII code for 'e' at location 251
+          Data    118       ; Put ASCII code for 'v' at location 252
+          Data    101       ; Put ASCII code for 'e' at location 253
+          Data    114       ; Put ASCII code for 'r' at location 254
+          Data    32        ; Put ASCII code for ' ' at location 255
+          Data    103       ; Put ASCII code for 'g' at location 256
+          Data    111       ; Put ASCII code for 'o' at location 257
+          Data    110       ; Put ASCII code for 'n' at location 258
+          Data    110       ; Put ASCII code for 'n' at location 259
+          Data    97        ; Put ASCII code for 'a' at location 260
+          Data    32        ; Put ASCII code for ' ' at location 261
+          Data    108       ; Put ASCII code for 'l' at location 262
+          Data    101       ; Put ASCII code for 'e' at location 263
+          Data    116       ; Put ASCII code for 't' at location 264
+          Data    32        ; Put ASCII code for ' ' at location 265
+          Data    121       ; Put ASCII code for 'y' at location 266
+          Data    111       ; Put ASCII code for 'o' at location 267
+          Data    117       ; Put ASCII code for 'u' at location 268
+          Data    32        ; Put ASCII code for ' ' at location 269
+          Data    100       ; Put ASCII code for 'd' at location 270
+          Data    111       ; Put ASCII code for 'o' at location 271
+          Data    119       ; Put ASCII code for 'w' at location 272
+          Data    110       ; Put ASCII code for 'n' at location 273
+

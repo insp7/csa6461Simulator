@@ -270,7 +270,6 @@ public class Assembler {
                     instr = assemblyLines.get(i).substring(0, commentStartIdx).trim();
                     comment = assemblyLines.get(i).substring(commentStartIdx);
                 }
-
                 int mnemonicEndIdx = instr.indexOf(' ');
                 String mnemonic = instr.substring(0, mnemonicEndIdx);
 

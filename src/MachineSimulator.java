@@ -1,9 +1,6 @@
+import javax.print.attribute.standard.JobName;
 import javax.swing.*;
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.FlowLayout;
-import java.awt.Font;
-import java.awt.GridLayout;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -33,9 +30,10 @@ class MachineSimulator extends JFrame implements ActionListener {
     JPanel contentPanel;
     JPanel buttonPanel;
     JPanel checkboxPanel;
-    JButton loadBtn, resetBtn, storeBtn, storePlusBtn, runBtn, stepBtn, haltBtn, IPLBtn;
+    JButton loadBtn, resetBtn, storeBtn, storePlusBtn, runBtn, stepBtn, haltBtn, IPLBtn, readInput;
     JLabel status;
     int currentStepLine = 0;
+    JTextArea textAreaInput;
 
     File selectedFile = null;
 
@@ -87,6 +85,7 @@ class MachineSimulator extends JFrame implements ActionListener {
         stepBtn.addActionListener(this);
         haltBtn.addActionListener(this);
         IPLBtn.addActionListener(this);
+        readInput.addActionListener(this);
 
         // Iterate through the register load buttons and add action listeners
         for (JButton button : registerLoadButtons) {
@@ -95,6 +94,13 @@ class MachineSimulator extends JFrame implements ActionListener {
     }
 
     private void addComponents() {
+        // Create JTextArea
+        textAreaInput = new JTextArea(10, 30); // Rows, Columns
+        textAreaInput.setFont(new Font("Arial", Font.PLAIN, 14)); // Set font
+        textAreaInput.setForeground(Color.blue); // Set foreground color
+        textAreaInput.setLineWrap(true); // Enable line wrapping
+        textAreaInput.setWrapStyleWord(true); // Wrap at word boundaries
+        textAreaInput.setBorder(BorderFactory.createLineBorder(Color.black));
 
         // instruction buttons
         buttonPanel.add(loadBtn);
@@ -105,6 +111,8 @@ class MachineSimulator extends JFrame implements ActionListener {
         buttonPanel.add(stepBtn);
         buttonPanel.add(haltBtn);
         buttonPanel.add(IPLBtn);
+        buttonPanel.add(readInput);
+        buttonPanel.add(textAreaInput);
         add(buttonPanel, BorderLayout.NORTH);
 
         // Adds register labels, 16 Bit binary values, Load Buttons
@@ -180,6 +188,7 @@ class MachineSimulator extends JFrame implements ActionListener {
         stepBtn = new JButton("Step");
         haltBtn = new JButton("Halt");
         IPLBtn = new JButton("IPL");
+        readInput = new JButton("ReadInput");
 
         // set font to segoe ui
         loadBtn.setFont(new Font("Segoe UI", Font.PLAIN, 16));
@@ -190,13 +199,13 @@ class MachineSimulator extends JFrame implements ActionListener {
         stepBtn.setFont(new Font("Segoe UI", Font.PLAIN, 16));
         haltBtn.setFont(new Font("Segoe UI", Font.PLAIN, 16));
         IPLBtn.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+        readInput.setFont(new Font("Segoe UI", Font.PLAIN, 16));
     }
 
     private void initFrame() {
         this.setTitle("CSA 6461 Machine Simulator");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setResizable(false);
-        this.setBounds(160, 160, 800, 700);
+        this.setBounds(160, 160, 900, 900);
         this.setVisible(true);
     }
 
@@ -289,7 +298,9 @@ class MachineSimulator extends JFrame implements ActionListener {
                                     registerValueLabels[4].setText(Registers.getRegisterValue("ixr1"));
                                     registerValueLabels[5].setText(Registers.getRegisterValue("ixr2"));
                                     registerValueLabels[6].setText(Registers.getRegisterValue("ixr3"));
-                                    registerValueLabels[7].setText(Registers.getRegisterValue("pc"));
+                                    int pcValue = BaseConversion.binaryToDecimal(Registers.getRegisterValue("pc")) + 1;
+                                    registerValueLabels[7].setText(BaseConversion.decimalToBinary(pcValue+"",16));
+                                    Registers.setRegisterValue("pc", String.valueOf(pcValue));
                                     registerValueLabels[8].setText(BaseConversion.octalToBinary(Registers.getRegisterValue("mar")));
                                     registerValueLabels[9].setText(BaseConversion.octalToBinary(Registers.getRegisterValue("mbr")));
                                     registerValueLabels[10].setText(Registers.getRegisterValue("mfr"));
@@ -362,7 +373,9 @@ class MachineSimulator extends JFrame implements ActionListener {
                             registerValueLabels[4].setText(Registers.getRegisterValue("ixr1"));
                             registerValueLabels[5].setText(Registers.getRegisterValue("ixr2"));
                             registerValueLabels[6].setText(Registers.getRegisterValue("ixr3"));
-                            registerValueLabels[7].setText(Registers.getRegisterValue("pc"));
+                            int pcValue = BaseConversion.binaryToDecimal(Registers.getRegisterValue("pc")) + 1;
+                            registerValueLabels[7].setText(BaseConversion.decimalToBinary(pcValue+"",16));
+                            Registers.setRegisterValue("pc", String.valueOf(pcValue));
                             registerValueLabels[8].setText(BaseConversion.octalToBinary(Registers.getRegisterValue("mar")));
                             registerValueLabels[9].setText(BaseConversion.octalToBinary(Registers.getRegisterValue("mbr")));
                             registerValueLabels[10].setText(Registers.getRegisterValue("mfr"));
@@ -400,7 +413,18 @@ class MachineSimulator extends JFrame implements ActionListener {
                     // Handle the selected file (e.g., read its contents)
                     System.out.println("Selected file: " + selectedFile.getAbsolutePath());
                     status.setText("Selected file: " + selectedFile.getAbsolutePath());
+                    Registers.setRegisterValue("pc", "0000000000000110");
+                    registerValueLabels[7].setText(Registers.getRegisterValue("pc"));
                 }
+            }
+        } else if (source == readInput){
+            System.out.println("Read Input Clicked");
+            String input = textAreaInput.getText();
+            try {
+                writeNumbersToFile(input, "data/test.txt");
+                mergeFiles("data/Part2.txt", "data/test.txt");
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
             }
         } else {
             for (int i = 0; i < registerLoadButtons.length; i++) {
@@ -415,6 +439,49 @@ class MachineSimulator extends JFrame implements ActionListener {
                 }
             }
         }
+    }
+
+    public static void writeNumbersToFile(String input, String fileName) throws IOException {
+        // Create a FileWriter to write data to a file
+        FileWriter writer = new FileWriter(fileName);
+
+        // Split the input string by commas
+        String[] numbers = input.split(",");
+
+        writer.write("LOC 6 \n");
+
+        // Write each number to the file in the desired format
+        for (String number : numbers) {
+            int num = Integer.parseInt(number.trim());
+            writer.write("DATA " + num + "\n");
+        }
+
+        // Close the FileWriter
+        writer.close();
+    }
+
+
+    public static void mergeFiles(String sourceFileName, String destinationFileName) throws IOException {
+        // Create a FileReader and BufferedReader for the source file
+        FileReader sourceFileReader = new FileReader(sourceFileName);
+        BufferedReader sourceBufferedReader = new BufferedReader(sourceFileReader);
+
+        // Create a FileWriter and BufferedWriter for the destination file in append mode
+        FileWriter destinationFileWriter = new FileWriter(destinationFileName, true);
+        BufferedWriter destinationBufferedWriter = new BufferedWriter(destinationFileWriter);
+
+        // Read data from the source file and append it to the destination file
+        String line;
+        while ((line = sourceBufferedReader.readLine()) != null) {
+            destinationBufferedWriter.write(line);
+            destinationBufferedWriter.newLine();
+        }
+
+        // Close the readers and writers
+        sourceBufferedReader.close();
+        sourceFileReader.close();
+        destinationBufferedWriter.close();
+        destinationFileWriter.close();
     }
 
     public static void main(String[] args) throws InterruptedException {

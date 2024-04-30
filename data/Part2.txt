@@ -1,0 +1,10 @@
+LDX     1,0
+LDR     1,0,6
+LDR     2,0,6
+SMR     2,2,7
+AIR     2,1
+SMR     1,2,7
+AND     2,1
+LDR     1,0,6
+AIR     2,1
+JMA     0,32

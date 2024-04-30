@@ -304,7 +304,7 @@ class MachineSimulator extends JFrame implements ActionListener {
                                     registerValueLabels[10].setText(Registers.getRegisterValue("mfr"));
                                     registerValueLabels[11].setText(Registers.getRegisterValue("ir"));
                                     registerValueLabels[12].setText(Registers.getRegisterValue("cc"));
-                                    Thread.sleep(300);
+                                    Thread.sleep(200);
 
                                 }
                             }
@@ -379,7 +379,7 @@ class MachineSimulator extends JFrame implements ActionListener {
                             registerValueLabels[10].setText(Registers.getRegisterValue("mfr"));
                             registerValueLabels[11].setText(Registers.getRegisterValue("ir"));
                             registerValueLabels[12].setText(Registers.getRegisterValue("cc"));
-                            Thread.sleep(300);
+                            Thread.sleep(200);
 
                         }
                     } else {
